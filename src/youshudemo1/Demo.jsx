@@ -5,6 +5,7 @@ import { Row, Col } from 'antd';
 import "antd/dist/antd.css";
 import './style.css'
 import { Layout, Button } from 'antd';
+import update from 'immutability-helper';
 import { DownloadOutlined, TableOutlined, BarChartOutlined, FileExcelFilled } from '@ant-design/icons';
 import html2canvas from 'html2canvas';
 import Canvas2Image from '../components/canvas2image'
@@ -43,12 +44,14 @@ const Demo = () => {
 
     const handleCreateiDiagram = useCallback((type) => {
         const curDiagramId = `${new Date().getTime()}_${type}`
-        setDiagramDataArr([...diagramDataArr, {
-            id: curDiagramId,
-            type, 
-            configData: {},
-        }])
-
+        setDiagramDataArr([
+            ...diagramDataArr,
+            {
+                id: curDiagramId,
+                type, 
+                configData: null,
+            }
+        ])
         setCurDiagramId(curDiagramId)
     }, [diagramDataArr]);
 
@@ -68,7 +71,8 @@ const Demo = () => {
                 <Content>
                     <Row style={{height: '100%'}}>
                         <Col span={20} >
-                            <Panel diagramDataArr={diagramDataArr} curDiagramId={curDiagramId}/>
+                            <Panel diagramDataArr={diagramDataArr} curDiagramId={curDiagramId} diagramNum={diagramDataArr.length}/>
+                            {/* <div>{JSON.stringify(diagramDataArr)}</div> */}
                         </Col>
                         <Col span={4}><ToolBox reRenderChart={(...args) => handleRender(...args)} disabled={false}/></Col>
                     </Row>
