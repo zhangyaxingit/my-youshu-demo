@@ -32,7 +32,7 @@ export const Dustbin = memo(function Dustbin({ accepts, bgcolor, lastDroppedItem
         {
             !lastDroppedItem && !isActive && tip
         }
-        {lastDroppedItem && (<div><h1 class='bar-title tansparent' style={{color: '#fff'}}>{lastDroppedItem.str}</h1></div>)}
+        {lastDroppedItem && (<div><h1 className='bar-title tansparent' style={{color: '#fff'}}>{lastDroppedItem.str}</h1></div>)}
     </div>);
 });
 

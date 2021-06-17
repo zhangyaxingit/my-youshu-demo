@@ -94,7 +94,7 @@ const Container = memo(function Container({chartConfig}) {
         }
     };
     
-    return (<div style={{ flex:1, height: '100%', backgroundColor:'#f8f8f8', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingLeft: '4rem', paddingRight: '4rem' }}>
+    return (<div id='panel' style={{ flex:1, height: '100%', backgroundColor:'#f8f8f8', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingLeft: '4rem', paddingRight: '4rem' }}>
         <div style={{width: '60rem', height: '50rem', backgroundColor: '#fff'}} id='chart' ref={main2}></div>
 	</div>);
 });
