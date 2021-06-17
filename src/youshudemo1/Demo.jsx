@@ -15,6 +15,7 @@ const { Header, Footer, Sider, Content } = Layout;
 
 const Demo = () => {
     const [chartConfig, setChartConfig] = useState(null)
+    const [diagramDataArr , setDiagramDataArr] = useState(null)
     const handleRender = useCallback((xSet, ySet, color, selectChart, selectCompute) => {
         setChartConfig({
             xSet, 
@@ -57,6 +58,11 @@ const Demo = () => {
                 .then(function (canvas) {
                     Canvas2Image.saveAsPNG(canvas, canvas.width, canvas.height)
                 });
+    }, []);
+
+    const handleCreateiDiagram = useCallback((type) => {
+        console.log(type)
+        const timeStamp = `${new Date().getTime()}`
     }, []);
 
 

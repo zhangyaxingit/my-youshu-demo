@@ -1,13 +1,12 @@
 import React from 'react';
-import Container from './components/Container';
-import Example from './multidemo/Example';
-import ToolBox from './youshudemo/ToolBox';
-import Panel from './youshudemo/Panel';
-import Demo from './youshudemo/Demo';
-import { DndProvider } from 'react-dnd'
-import HTML5Backend from 'react-dnd-html5-backend'
+// import Container from './components/Container';
+// import Example from './multidemo/Example';
+// import ToolBox from './youshudemo/ToolBox';
+// import Panel from './youshudemo/Panel';
+import Demo from './youshudemo1/Demo';
+// import { DndProvider } from 'react-dnd'
+// import HTML5Backend from 'react-dnd-html5-backend'
 import './App.css';
-import { Console } from 'console';
 
 const App = () => {
     return (

@@ -1,62 +1,55 @@
 import React, { useCallback, useState } from 'react';
 import ToolBox from './ToolBox';
-import Panel from './Panel';
+import Panel from './Panel1';
 import { Row, Col } from 'antd';
 import "antd/dist/antd.css";
 import './style.css'
 import { Layout, Button } from 'antd';
 import { DownloadOutlined, TableOutlined, BarChartOutlined, FileExcelFilled } from '@ant-design/icons';
-import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-import Canvas2Image from './../components/canvas2image'
-
-
-const { Header, Footer, Sider, Content } = Layout;
+import Canvas2Image from '../components/canvas2image'
+const { Header, Content } = Layout;
 
 const Demo = () => {
-    const [chartConfig, setChartConfig] = useState(null)
+    const [diagramDataArr , setDiagramDataArr] = useState([])
+    const [curDiagramId, setCurDiagramId] = useState(null)
+
     const handleRender = useCallback((xSet, ySet, color, selectChart, selectCompute) => {
-        setChartConfig({
+        const chartConfig = {
             xSet, 
             ySet, 
             color,
             selectChart,
             selectCompute
+        }
+        const newDiagramDataArr = diagramDataArr.map(item => {
+            return {
+                ...item,
+                configData: item.id === curDiagramId ? chartConfig : item.configData
+            }
         })
+
+        setDiagramDataArr(newDiagramDataArr)
+
     }, []);
 
     const handleDownload = useCallback(() => {
         const panelDom = document.getElementById("panel")
         console.log('1111', panelDom.offsetWidth, panelDom.offsetHeight)
-        // var width = panelDom.offsetWidth; 
-        // var height = panelDom.offsetHeight; 
-        // var canvas = document.createElement("canvas"); 
-        // var scale = 3; 
-    
-        // canvas.width = width * scale; 
-        // canvas.height = height * scale; 
-        // canvas.getContext("2d").scale(scale, scale); 
-    
-        // let opts = {
-        //     scale: scale, 
-        //     canvas: canvas,
-        //     width: width,
-        //     height: height 
-        // };
-        // html2canvas(panelDom, opts)
-        //     .then(function (canvas) {
-        //         var context = canvas.getContext('2d');
-        //         context.mozImageSmoothingEnabled = false;
-        //         context.webkitImageSmoothingEnabled = false;
-        //         context.msImageSmoothingEnabled = false;
-        //         context.imageSmoothingEnabled = false;
-
-        //         Canvas2Image.saveAsPNG(canvas, canvas.width, canvas.height)
-        //     });
             html2canvas(panelDom)
                 .then(function (canvas) {
                     Canvas2Image.saveAsPNG(canvas, canvas.width, canvas.height)
                 });
+    }, []);
+
+    const handleCreateiDiagram = useCallback((type) => {
+        console.log(type)
+        const curDiagramId = `${new Date().getTime()}_${type}`
+        setDiagramDataArr([...diagramDataArr, {
+            id: curDiagramId,
+            configData: {},
+        }])
+        setCurDiagramId(curDiagramId)
     }, []);
 
 
@@ -75,9 +68,9 @@ const Demo = () => {
                 <Content>
                     <Row style={{height: '100%'}}>
                         <Col span={20} >
-                            <Panel chartConfig={chartConfig}/>
+                            <Panel diagramDataArr={diagramDataArr} curDiagramId={curDiagramId}/>
                         </Col>
-                        <Col span={4}><ToolBox reRenderChart={(...args) => handleRender(...args)}/></Col>
+                        <Col span={4}><ToolBox reRenderChart={(...args) => handleRender(...args)} disabled={false}/></Col>
                     </Row>
                 </Content>
             </Layout>
