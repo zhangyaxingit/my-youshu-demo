@@ -22,8 +22,8 @@ const Demo = () => {
 
     return (
         <>
-                <Row>
-                    <Col span={20} style={{backgroundColor: 'red'}}>
+                <Row style={{height: '100%'}}>
+                    <Col span={20} >
                         <Panel chartConfig={chartConfig}/>
                     </Col>
                     <Col span={4}><ToolBox reRenderChart={(...args) => handleRender(...args)}/></Col>

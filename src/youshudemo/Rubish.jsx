@@ -4,10 +4,9 @@ const style = {
     borderBottom: '1px dashed gray',
     backgroundColor: '#f8f8f8',
     width: '100%',
-    // padding: '0.3rem 2rem',
-    // margin: '0.2rem',
     cursor: 'move',
     userSelect:'none',
+    textAlign: 'center'
     // cursor: 'default'
 };
 

@@ -4,7 +4,7 @@ import Dustbin from './Dustbin';
 import Rubish from './Rubish';
 import update from 'immutability-helper';
 import { data, dataType, chartTypes, computeTypes } from './mock'
-import { Typography, Menu, Select, Row, Col} from 'antd';
+import { Typography, Menu, Select, Row, Col, Tag} from 'antd';
 import './style.css';
 import "antd/dist/antd.css";
 const { Option } = Select;
@@ -84,54 +84,53 @@ const Container = memo(function Container(props) {
     return (
         <Row style={{height: '100%'}}>
             <Col span={12}>
-                <div className='tool-bar'>
+                <div className='tool-bar flex-column-container'>
                     <h1 className='bar-title box-title'>图表</h1>
-                    <Col style={{height: '100%', backgroundColor: 'red', display: 'flex', flexDirection: 'column'}}>
-                        <div className='axis-bar'>
-                            <h1 className='bar-title'>X轴</h1>
-                            <div className='items-container'>
-                                <Dustbin accepts={xSet.accepts} lastDroppedItem={xSet.lastDroppedItem} tip={'拖入'} onDrop={(item) => handleDrop('xSet', item)} key={'xSet'}/>
+                    <div className='axis-bar'>
+                        <h1 className='bar-title'>X轴</h1>
+                        <div className='items-container'>
+                            <Dustbin accepts={xSet.accepts} bgcolor={'#409EFF'} lastDroppedItem={xSet.lastDroppedItem} tip={'拖入'} onDrop={(item) => handleDrop('xSet', item)} key={'xSet'}/>
+                        </div>
+                    </div>
+                    <div className='axis-bar'>
+                        <h1 className='bar-title'>Y轴</h1>
+                        <div className='items-container'>
+                            <Dustbin bgcolor={'#67C23A'} accepts={ySet.accepts} lastDroppedItem={ySet.lastDroppedItem} tip={'拖入'} onDrop={(item) => handleDrop('ySet', item)} key={'ySet'}/>
+                        </div>
+                    </div>
+                    <div className='axis-bar'>
+                        <h1 className='bar-title'>图表类型</h1>
+                        <div className='items-container'>
+                            <Select defaultValue={selectval} style={{ width: '100%' }} onChange={(item) => handleChange('chart', item)}>
+                                {
+                                    chartTypes.map(item => {
+                                        return <Option value={item.name}>{item.dsc}</Option>
+                                    })
+                                }
+                            </Select>
+                            <div style={{display: 'flex', flexDirection: 'row', width: '100%', backgroundColor: '#fff', alignItems: 'center'}}>
+                                {/* <div style={{width: '2rem', borderLeft: '1px solid #ccc', fontSize: '10px'}}>颜色</div> */}
+                                <span style={{width: '3rem', borderLeft: '1px solid #ccc', fontSize: '10px'}}>颜色</span>
+                                <Dustbin bgcolor={'#E6A23C'} accepts={color.accepts} lastDroppedItem={color.lastDroppedItem} tip={'拖入'} onDrop={(item) => handleDrop('color', item)} key={'color'}/>
                             </div>
                         </div>
-                        <div className='axis-bar'>
-                                <h1 className='bar-title'>Y轴</h1>
-                                <div className='items-container'>
-                                    <Dustbin accepts={ySet.accepts} lastDroppedItem={ySet.lastDroppedItem} tip={'拖入'} onDrop={(item) => handleDrop('ySet', item)} key={'ySet'}/>
-                                </div>
-                            </div>
-                        <div className='axis-bar'>
-                            <h1 className='bar-title'>图表类型</h1>
-                            <div className='items-container'>
-                                <Select defaultValue={selectval} style={{ width: '100%' }} onChange={(item) => handleChange('chart', item)}>
-                                    {
-                                        chartTypes.map(item => {
-                                            return <Option value={item.name}>{item.dsc}</Option>
-                                        })
-                                    }
-                                </Select>
-                                <div style={{display: 'flex', flexDirection: 'row', width: '100%', backgroundColor: '#fff'}}>
-                                    <text style={{width: '4rem', borderLeft: '1px solid #ccc'}}>颜色</text>
-                                    <Dustbin accepts={color.accepts} lastDroppedItem={color.lastDroppedItem} tip={'拖入'} onDrop={(item) => handleDrop('color', item)} key={'color'}/>
-                                </div>
-                            </div>
+                    </div>
+                    <div className='axis-bar'>
+                        <h1 className='bar-title'>计算方式</h1>
+                        <div className='items-container'>
+                            <Select defaultValue={selectCompute} style={{ width: '100%', }} onChange={(item) => handleChange('compute', item)}>
+                                {
+                                    computeTypes.map(item => {
+                                        return <Option value={item.name}>{item.dsc}</Option>
+                                    })
+                                }
+                            </Select>
                         </div>
-                        <div className='axis-bar'>
-                            <h1 className='bar-title'>计算方式</h1>
-                            <div className='items-container'>
-                                <Select defaultValue={selectCompute} style={{ width: '100%', }} onChange={(item) => handleChange('compute', item)}>
-                                    {
-                                        computeTypes.map(item => {
-                                            return <Option value={item.name}>{item.dsc}</Option>
-                                        })
-                                    }
-                                </Select>
-                            </div>
-                        </div>
-                    </Col>
+                    </div>
                 </div>
             </Col>
             <Col span={12}>
-                <div className='tool-bar'>
+                <div className='tool-bar flex-column-container'>
                     <h1 className='bar-title box-title'>数据模型</h1>
                     <div className='bar'>
                         <h1 className='bar-title'>维度</h1>

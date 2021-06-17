@@ -4,31 +4,35 @@ import { DropTarget } from 'react-dnd';
 import './style.css'
 
 const style = {
-    height: '3rem',
-    lineHeight: '3rem',
+    height: '2rem',
+    lineHeight: '2rem',
     width: '100%',
-    color: '#222',
+    color: '#fff',
     textAlign: 'center',
-    fontSize: '1rem',
-    lineHeight: 'normal',
+    // fontSize: '1rem',
+    // lineHeight: 'normal',
     userSelect:'none'
 };
 
-export const Dustbin = memo(function Dustbin({ accepts, lastDroppedItem, isOver, canDrop, connectDropTarget, tip}) {
+export const Dustbin = memo(function Dustbin({ accepts, bgcolor, lastDroppedItem, isOver, canDrop, connectDropTarget, tip}) {
     const isActive = isOver && canDrop;
-    let backgroundColor = '#fff';
-    if (isActive) {
-        backgroundColor = '#7dbcea';
-    }
-    else if (canDrop) {
-        backgroundColor = 'rgba(16, 142, 233, 1)';
-    }
+    let backgroundColor = bgcolor;
+    // if (isActive) {
+    //     backgroundColor = '#7dbcea';
+    // }
+    // else if (canDrop) {
+    //     backgroundColor = 'rgba(16, 142, 233, 1)';
+    // }
 
     return connectDropTarget(<div ref={connectDropTarget} style={{ ...style, backgroundColor }} role="Dustbin">
-        {isActive
+        {/* {isActive
             ? '释放'
-            : tip }
-        {lastDroppedItem && (<div><h1 class='bar-title'>{lastDroppedItem.str}</h1></div>)}
+            : tip } */}
+        {!lastDroppedItem && isActive && '释放'}
+        {
+            !lastDroppedItem && !isActive && tip
+        }
+        {lastDroppedItem && (<div><h1 class='bar-title tansparent' style={{color: '#fff'}}>{lastDroppedItem.str}</h1></div>)}
     </div>);
 });
 
