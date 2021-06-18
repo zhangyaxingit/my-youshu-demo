@@ -7,6 +7,7 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import * as echarts from 'echarts';
 import {data} from './mock'
 import {computeData} from './compute'
+import { Rnd } from 'react-rnd'
 
 const Container = memo(function Container({diagramDataArr, curDiagramId,  diagramNum}) {
     const diagramRef = useRef(null);
@@ -122,6 +123,17 @@ const Container = memo(function Container({diagramDataArr, curDiagramId,  diagra
             flexWrap:'wrap',
             // justifyContent: 'space-between'
         }}>
+
+            <Rnd
+                default={{
+                    x: 0,
+                    y: 0,
+                    width: 320,
+                    height: 200,
+                }}
+                >
+                <div style={{width:'100%', height: '100%', backgroundColor: '#fff'}}></div>
+            </Rnd>
         {/* <div style={{width: '24rem', height: '20rem', backgroundColor: '#fff'}} id='chart' ref={main2}></div> */}
 	</div>);
 });
