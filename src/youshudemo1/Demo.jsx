@@ -16,6 +16,7 @@ const Demo = () => {
     const [curDiagramId, setCurDiagramId] = useState(null)
 
     const handleRender = useCallback((xSet, ySet, color, selectChart, selectCompute) => {
+
         const chartConfig = {
             xSet, 
             ySet, 
@@ -29,8 +30,6 @@ const Demo = () => {
                 configData: item.id === curDiagramId ? chartConfig : item.configData
             }
         })
-
-        console.log('更新了newDiagramDataArr',newDiagramDataArr)
         setDiagramDataArr(newDiagramDataArr)
 
     }, [diagramDataArr]);

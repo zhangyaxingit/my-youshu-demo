@@ -15,33 +15,89 @@ const Container = memo(function Container({diagramDataArr, curDiagramId,  diagra
     }, [diagramNum])
 
     useEffect(() => {
+        console.log('当前数据和id', diagramDataArr, curDiagramId)
         const curDiagram = diagramDataArr.find(item => item.id === curDiagramId)
         if ( curDiagram && curDiagram.configData) { // 先拿到Echart
             const chartInstance = echarts.getInstanceByDom(document.getElementById(curDiagramId))
-            chartInstance.setOption({
+            const chartOption = getChartOpt(curDiagram.configData)
+            chartInstance.setOption(chartOption)
+        }
+    }, [diagramDataArr, curDiagramId])
+
+    let getChartOpt = (chartConfig) => {
+        const {
+            xSet, 
+            ySet, 
+            color,
+            selectChart,
+            selectCompute
+        } = chartConfig
+
+        let { finalData: totalData,  ruleArr} = computeData(data, {xSet, ySet, selectCompute}, color)
+
+        const xAxisData = Object.keys(totalData)
+        let yAxisData = null
+        let seriesData  = null
+        if (!ruleArr) {
+            yAxisData = xAxisData.map(x =>totalData[x])
+            seriesData = [
+                {
+                    data: yAxisData,
+                    type: selectChart
+                },
+            ]
+        } else {
+            yAxisData = ruleArr.map(rule => {
+                return {
+                    rule,
+                    value: xAxisData.map(x => totalData[x][rule])
+                }
+            })
+            seriesData = yAxisData.map(item => {
+                return {
+                    name: item.rule,
+                    type: selectChart,
+                    stack: 'rule',
+                    emphasis: {
+                        focus: 'series'
+                    },
+                    data: item.value
+                }
+            })
+        }
+
+
+        return {
+                tooltip: {
+                    trigger: 'axis'
+                },
+                // toolbox: {
+                //     feature: {
+                //         saveAsImage: {}
+                //     }
+                // },
                 xAxis: {
                     type: 'category',
-                    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                    data: xAxisData
                 },
                 yAxis: {
                     type: 'value'
                 },
-                series: [{
-                    data: [150, 230, 224, 218, 135, 147, 260],
-                    type: 'line'
-                }]
-            })
-        }
-    }, [diagramDataArr, curDiagramId])
+                series: seriesData
+            }
+    }
 
     let createNewDiagrm = () => {
         
         let newDiagram = document.createElement('div')
         const curCurrentId = diagramDataArr[diagramDataArr.length -1].id
         newDiagram.id = curCurrentId
+        
         newDiagram.style.width = '24rem'
-        newDiagram.style.height = '20rem'
+        newDiagram.style.height = '18rem'
         newDiagram.style.backgroundColor = '#fff'
+        newDiagram.style.marginLeft = '0.4rem'
+        newDiagram.style.marginTop = '0.4rem'
 
         var panelNode = document.getElementById('panel');
         panelNode.appendChild(newDiagram);
@@ -50,7 +106,16 @@ const Container = memo(function Container({diagramDataArr, curDiagramId,  diagra
 
     
     
-    return (<div id='panel' style={{ flex:1, height: '100%', backgroundColor:'#f8f8f8', display: 'flex', paddingLeft: '4rem', paddingRight: '4rem' }}>
+    return (<div id='panel' style={{
+            flex:1, 
+            height: '100%', 
+            backgroundColor:'#f8f8f8',
+            display: 'flex', 
+            paddingLeft: '4rem', 
+            paddingRight: '4rem', 
+            flexWrap:'wrap',
+            // justifyContent: 'space-between'
+        }}>
         {/* <div style={{width: '24rem', height: '20rem', backgroundColor: '#fff'}} id='chart' ref={main2}></div> */}
 	</div>);
 });
