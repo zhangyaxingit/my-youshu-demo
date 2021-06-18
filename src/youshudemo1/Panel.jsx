@@ -1,6 +1,9 @@
 import React, { memo, useState, useCallback, useEffect, useRef, useMemo} from 'react';
 import { NativeTypes } from 'react-dnd-html5-backend';
 import update from 'immutability-helper';
+import { Grid } from 'ag-grid-community';
+import 'ag-grid-community/dist/styles/ag-grid.css';
+import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import * as echarts from 'echarts';
 import {data} from './mock'
 import {computeData} from './compute'
@@ -18,9 +21,13 @@ const Container = memo(function Container({diagramDataArr, curDiagramId,  diagra
         console.log('当前数据和id', diagramDataArr, curDiagramId)
         const curDiagram = diagramDataArr.find(item => item.id === curDiagramId)
         if ( curDiagram && curDiagram.configData) { // 先拿到Echart
-            const chartInstance = echarts.getInstanceByDom(document.getElementById(curDiagramId))
-            const chartOption = getChartOpt(curDiagram.configData)
-            chartInstance.setOption(chartOption)
+            if (curDiagram.type === 'chart') {
+                const chartInstance = echarts.getInstanceByDom(document.getElementById(curDiagramId))
+                const chartOption = getChartOpt(curDiagram.configData)
+                chartInstance.setOption(chartOption)
+            } else {
+
+            }
         }
     }, [diagramDataArr, curDiagramId])
 
@@ -88,7 +95,6 @@ const Container = memo(function Container({diagramDataArr, curDiagramId,  diagra
     }
 
     let createNewDiagrm = () => {
-        
         let newDiagram = document.createElement('div')
         const curCurrentId = diagramDataArr[diagramDataArr.length -1].id
         newDiagram.id = curCurrentId

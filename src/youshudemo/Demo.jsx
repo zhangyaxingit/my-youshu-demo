@@ -30,7 +30,7 @@ const Demo = () => {
         console.log('1111', panelDom.offsetWidth, panelDom.offsetHeight)
         // var width = panelDom.offsetWidth; 
         // var height = panelDom.offsetHeight; 
-        // var canvas = document.createElement("canvas"); 
+        // var canvas = document.createElement("canvas");
         // var scale = 3; 
     
         // canvas.width = width * scale; 
