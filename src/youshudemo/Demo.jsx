@@ -64,15 +64,17 @@ const Demo = () => {
         <>
             <Layout>
                 <Header className='flex-row-container' style={{backgroundColor: 'transparent', padding: 0}} >
+                    {/* 11111 */}
                     <div style={{display: 'flex', flex:5, justifyContent:'center', flexDirection: 'row'}}>
-                        <Button icon={<BarChartOutlined />} size='large' onClick={() => handleCreateiDiagram('chart')}/>
-                        <Button icon={<TableOutlined />} size='large' style={{marginLeft: '2rem'}} onClick={() => handleCreateiDiagram('table')}/>
+                        <Button icon={<BarChartOutlined />} size='large' />
+                        <Button icon={<TableOutlined />} size='large' style={{marginLeft: '2rem'}} />
                     </div>
                     <div style={{display: 'flex', flex:1, paddingLeft: 20}}>
                         <Button type="primary" icon={<DownloadOutlined />} size='small' onClick={() => handleDownload()} />
                     </div>
                 </Header>
                 <Content>
+                    {/* 222 */}
                     <Row style={{height: '100%'}}>
                         <Col span={20} >
                             <Panel chartConfig={chartConfig}/>

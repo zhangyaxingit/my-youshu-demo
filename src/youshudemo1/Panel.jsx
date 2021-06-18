@@ -41,7 +41,7 @@ const Container = memo(function Container({diagramDataArr, curDiagramId,  diagra
         newDiagram.id = curCurrentId
         newDiagram.style.width = '24rem'
         newDiagram.style.height = '20rem'
-        newDiagram.style.backgroundColor = 'red'
+        newDiagram.style.backgroundColor = '#fff'
 
         var panelNode = document.getElementById('panel');
         panelNode.appendChild(newDiagram);

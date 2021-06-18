@@ -30,9 +30,10 @@ const Demo = () => {
             }
         })
 
+        console.log('更新了newDiagramDataArr',newDiagramDataArr)
         setDiagramDataArr(newDiagramDataArr)
 
-    }, []);
+    }, [diagramDataArr]);
 
     const handleDownload = useCallback(() => {
         const panelDom = document.getElementById("panel")
@@ -58,7 +59,7 @@ const Demo = () => {
 
     return (
         <>
-            <Layout>
+            <Layout style={{height: '100%'}}>
                 <Header className='flex-row-container' style={{backgroundColor: 'transparent', padding: 0}} >
                     <div style={{display: 'flex', flex:5, justifyContent:'center', flexDirection: 'row'}}>
                         <Button icon={<BarChartOutlined />} size='large' onClick={() => handleCreateiDiagram('chart')}/>
@@ -72,7 +73,6 @@ const Demo = () => {
                     <Row style={{height: '100%'}}>
                         <Col span={20} >
                             <Panel diagramDataArr={diagramDataArr} curDiagramId={curDiagramId} diagramNum={diagramDataArr.length}/>
-                            {/* <div>{JSON.stringify(diagramDataArr)}</div> */}
                         </Col>
                         <Col span={4}><ToolBox reRenderChart={(...args) => handleRender(...args)} disabled={false}/></Col>
                     </Row>
