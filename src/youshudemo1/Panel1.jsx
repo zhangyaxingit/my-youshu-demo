@@ -6,81 +6,41 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import * as echarts from 'echarts';
 import { DownloadOutlined, TableOutlined, BarChartOutlined, FileExcelFilled } from '@ant-design/icons';
-import {data} from './mock'
+import { data, diagramDate } from './mock'
 import {computeData} from './compute'
 import { Rnd } from 'react-rnd'
 
 const Container = memo(function Container({diagramDataArr, curDiagramId,  diagramNum}) {
-    const [dataArr, setDataArr] = useState([
-        { type: 'chart', id:'rnd1', opts: {
-            xAxis: {
-                type: 'category',
-                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-            },
-            yAxis: {
-                type: 'value'
-            },
-            series: [{
-                data: [150, 230, 224, 218, 135, 147, 260],
-                type: 'line'
-            }]},
-            rndData: {
-                x: 0,
-                y: 0,
-                width: 320,
-                height: 200,
-            }
-        },
-        { type: 'table', id:'rnd2', opts: {
-            xAxis: {
-                type: 'category',
-                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-            },
-            yAxis: {
-                type: 'value'
-            },
-            series: [{
-                data: [120, 200, 150, 80, 70, 110, 130],
-                type: 'bar',
-                showBackground: true,
-                backgroundStyle: {
-                    color: 'rgba(180, 180, 180, 0.2)'
-                }
-            }]},
-            rndData: {
-                x: 10,
-                y: 10,
-                width: 320,
-                height: 200,
-            }
-        }
-    ])
-    const main2 = useRef(null);
+    // const main2 = useRef(null);
+    const [dataArr, setDataArr] = useState(diagramDate)
 
-    // useEffect(() => {
-    //     const myChart = echarts.getInstanceByDom(main2.current);
-    //     // myChart.resize()
-    //     let chartInstance = null
-    //     if(myChart)
-    //         chartInstance = myChart;
-    //     else
-    //         chartInstance = echarts.init(main2.current);
-    //     chartInstance.setOption({
-    //         xAxis: {
-    //             type: 'category',
-    //             data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-    //         },
-    //         yAxis: {
-    //             type: 'value'
-    //         },
-    //         series: [{
-    //             data: [150, 230, 224, 218, 135, 147, 260],
-    //             type: 'line'
-    //         }]
-    //     })
-    // })
+    useEffect(() => {
+        const chartDiagramArr = dataArr.filter(item => item.type === 'chart')
+        chartDiagramArr.map(chart =>{
+            const myChart = echarts.getInstanceByDom(document.getElementById(`chart_${chart.id}`));
+            let chartInstance = null
+            if(myChart)
+                chartInstance = myChart;
+            else
+                chartInstance = echarts.init(document.getElementById(`chart_${chart.id}`));
+                chartInstance.setOption({
+                    xAxis: {
+                        type: 'category',
+                        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: [{
+                        data: [150, 230, 224, 218, 135, 147, 260],
+                        type: 'line'
+                    }]
+                })
+        })
+    })
 
     const handleRndDragStop = useCallback((e, d, rndIndex) => {
+        // console.log('改动前数据', dataArr)
         const newDataArr = dataArr.map((item, index) => {
             return {
                 ...item,
@@ -91,9 +51,9 @@ const Container = memo(function Container({diagramDataArr, curDiagramId,  diagra
                 }
             }
         })
-        console.log('当前数据', dataArr, newDataArr)
+        // console.log('改动后数据', newDataArr)
         setDataArr(newDataArr)
-    }, []);
+    }, [dataArr]);
 
 
     const handleRndResizeStop = useCallback((e, ref, position, rndIndex) => {
@@ -108,9 +68,16 @@ const Container = memo(function Container({diagramDataArr, curDiagramId,  diagra
             }
         })
         setDataArr(newDataArr)
-    }, []);
+    }, [dataArr]);
 
-
+    const handleRndResize = useCallback((e, direction, ref, delta, position, type_id) => {
+        console.log('调用了', ref)
+        const [type, id] = type_id.split('_')
+        if (type === 'chart') {
+            const myChart = echarts.getInstanceByDom(document.getElementById(type_id));
+            myChart.resize()
+        }
+    }, [dataArr]);
     
     
     return (<div id='panel' style={{
@@ -130,11 +97,19 @@ const Container = memo(function Container({diagramDataArr, curDiagramId,  diagra
                             size={{ width: item.rndData.width,  height: item.rndData.height }}
                             position={{ x: item.rndData.x, y: item.rndData.y }}
                             onDragStop={(e, d) => handleRndDragStop(e, d, index)}
+                            onResize={(e, direction, ref, delta, position) => handleRndResize(e, direction, ref, delta, position, `${item.type}_${item.id}` )}
                             onResizeStop={(e, direction, ref, delta, position) => handleRndResizeStop(e, ref, position, index)}
                         >
-                        <div style={{width:'100%', height: '100%', backgroundColor: item.type === 'chart' ?'red' : 'green', display: 'flex', justifyContent: 'center', alignContent:'center'}}>
-                            <div style={{backgroundColor: 'red', flex: 1, padding: '0.2rem'}}></div>
-                        </div>
+                            {
+                                item.type === 'chart' && <div style={{width:'100%', height: '100%', display: 'flex', justifyContent: 'center', alignContent:'center'}}>
+                                    <div style={{backgroundColor: '#fff', flex: 1, padding: '0.2rem'}} id={`chart_${item.id}`}></div>
+                                </div>
+                            }
+                            {
+                                item.type === 'table' && <div style={{width:'100%', height: '100%', display: 'flex', justifyContent: 'center', alignContent:'center'}}>
+                                    <div style={{backgroundColor: 'red', flex: 1, padding: '0.2rem'}}>table</div>
+                                </div>
+                            }
                     </Rnd>
                     })
                 }

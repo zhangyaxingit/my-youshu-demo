@@ -12,7 +12,7 @@ import { Rnd } from 'react-rnd'
 const Container = memo(function Container({diagramDataArr, curDiagramId,  diagramNum}) {
     const diagramRef = useRef(null);
 
-    useEffect(() => {  // 新建图标的情况
+    useEffect(() => {  // 新建图表的情况
         if(diagramNum) {
             createNewDiagrm()
         }
@@ -35,7 +35,7 @@ const Container = memo(function Container({diagramDataArr, curDiagramId,  diagra
     let getChartOpt = (chartConfig) => {
         const {
             xSet, 
-            ySet, 
+            ySet,
             color,
             selectChart,
             selectCompute
@@ -130,8 +130,7 @@ const Container = memo(function Container({diagramDataArr, curDiagramId,  diagra
                     y: 0,
                     width: 320,
                     height: 200,
-                }}
-                >
+                }}>
                 <div style={{width:'100%', height: '100%', backgroundColor: '#fff'}}></div>
             </Rnd>
         {/* <div style={{width: '24rem', height: '20rem', backgroundColor: '#fff'}} id='chart' ref={main2}></div> */}
