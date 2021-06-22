@@ -16,10 +16,9 @@ const Demo = () => {
     const [curDiagramId, setCurDiagramId] = useState(null)
 
     const handleRender = useCallback((xSet, ySet, color, selectChart, selectCompute) => {
-
         const chartConfig = {
             xSet, 
-            ySet, 
+            ySet,
             color,
             selectChart,
             selectCompute
@@ -30,8 +29,8 @@ const Demo = () => {
                 configData: item.id === curDiagramId ? chartConfig : item.configData
             }
         })
+        debugger
         setDiagramDataArr(newDiagramDataArr)
-
     }, [diagramDataArr]);
 
     const handleDownload = useCallback(() => {
@@ -48,7 +47,7 @@ const Demo = () => {
             ...diagramDataArr,
             {
                 id: curDiagramId,
-                type, 
+                type,
                 configData: null,
             }
         ])

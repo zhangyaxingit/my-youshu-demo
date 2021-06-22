@@ -10,7 +10,6 @@ import {computeData} from './compute'
 import { Rnd } from 'react-rnd'
 
 const Container = memo(function Container({diagramDataArr, curDiagramId,  diagramNum}) {
-    const diagramRef = useRef(null);
 
     useEffect(() => {  // 新建图表的情况
         if(diagramNum) {

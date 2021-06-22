@@ -87,6 +87,6 @@ export const diagramDate = [
             width: 320,
             height: 200,
         }
-    }
+    },
 ]
 

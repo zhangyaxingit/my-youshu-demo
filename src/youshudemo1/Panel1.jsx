@@ -11,7 +11,7 @@ import {computeData} from './compute'
 import { Rnd } from 'react-rnd'
 
 const Container = memo(function Container({diagramDataArr, curDiagramId,  diagramNum}) {
-    // const main2 = useRef(null);
+    console.log('diagramDataArr', diagramDataArr)
     const [dataArr, setDataArr] = useState(diagramDate)
 
     useEffect(() => {
@@ -40,7 +40,6 @@ const Container = memo(function Container({diagramDataArr, curDiagramId,  diagra
     })
 
     const handleRndDragStop = useCallback((e, d, rndIndex) => {
-        // console.log('改动前数据', dataArr)
         const newDataArr = dataArr.map((item, index) => {
             return {
                 ...item,
@@ -51,14 +50,12 @@ const Container = memo(function Container({diagramDataArr, curDiagramId,  diagra
                 }
             }
         })
-        // console.log('改动后数据', newDataArr)
         setDataArr(newDataArr)
     }, [dataArr]);
 
 
     const handleRndResizeStop = useCallback((e, ref, position, rndIndex) => {
         const newDataArr = dataArr.map((item, index) => {
-            
             return {
                 ...item,
                 rndData: rndIndex !== index ? item.rndData : {
