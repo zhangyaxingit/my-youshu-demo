@@ -58,6 +58,7 @@ const Container = memo(function Container({diagramDataArr, curDiagramId,  diagra
 
     const handleRndResizeStop = useCallback((e, ref, position, rndIndex) => {
         const newDataArr = dataArr.map((item, index) => {
+            
             return {
                 ...item,
                 rndData: rndIndex !== index ? item.rndData : {
