@@ -3,9 +3,9 @@ import { NativeTypes } from 'react-dnd-html5-backend';
 import Dustbin from './Dustbin';
 import Rubish from './Rubish';
 import update from 'immutability-helper';
-import { data, dataType, chartTypes, computeTypes } from './mock'
+import { data, dataType, chartTypes, computeTypes } from './../mock'
 import { Typography, Menu, Select, Row, Col, Tag} from 'antd';
-import './style.css';
+import './../style.css';
 import "antd/dist/antd.css";
 const { Option } = Select;
 

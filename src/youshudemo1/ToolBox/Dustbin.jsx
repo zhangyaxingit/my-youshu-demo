@@ -1,7 +1,7 @@
 
 import React, { memo } from 'react';
 import { DropTarget } from 'react-dnd';
-import './style.css'
+import './../style.css'
 
 const style = {
     height: '2rem',
